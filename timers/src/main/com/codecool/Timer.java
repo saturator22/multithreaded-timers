@@ -21,14 +21,6 @@ public class Timer extends Thread {
         }
     }
 
-    public int getSeconds() {
-        return seconds;
-    }
-
-    public String getTimerName() {
-        return timerName;
-    }
-
     @Override
     public String toString() {
         return  "Name: '" + timerName + '\'' +
