@@ -5,9 +5,9 @@ public class Timer extends Thread {
     private String timerName;
     private int seconds;
 
-    public Timer(String timerName, int seconds) {
+    public Timer(String timerName) {
         this.timerName = timerName;
-        this.seconds = seconds;
+        this.seconds = 0;
     }
 
     public void run() {
@@ -31,9 +31,8 @@ public class Timer extends Thread {
 
     @Override
     public String toString() {
-        return "Timer{" +
-                "timerName='" + timerName + '\'' +
-                ", seconds=" + seconds +
-                '}';
+        return  "Name: '" + timerName + '\'' +
+                ", seconds: " + seconds +
+                ", threadId: " + this.getId();
     }
 }
