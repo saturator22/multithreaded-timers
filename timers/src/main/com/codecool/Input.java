@@ -2,15 +2,15 @@ package main.com.codecool;
 
 import java.util.Scanner;
 
-public class Input {
+class Input {
 
     private Scanner scanner;
 
-    public Input() {
+    Input() {
         this.scanner = new Scanner(System.in);
     }
 
-    public Scanner getScanner() {
+    Scanner getScanner() {
         return scanner;
     }
 }

@@ -4,19 +4,29 @@ public class Timer extends Thread {
 
     private String timerName;
     private int seconds;
+    private boolean isSuspended;
 
-    public Timer(String timerName) {
+    Timer(String timerName) {
         this.timerName = timerName;
-        this.seconds = 0;
     }
 
     public void run() {
-        while(!this.isInterrupted()) {
+        while(!this.isInterrupted() || !isSuspended) {
             try{
                 this.sleep(1000);
                 this.seconds++;
+                synchronized (this) {
+                    while(this.isSuspended) {
+                        this.wait();
+                    }
+                }
             } catch (InterruptedException e) {
-                System.out.println(this.toString() + " has been interrupted.");
+                synchronized (this) {
+                    System.out.println(this.toString() + " has been interrupted.");
+                    if(this.interrupted()) {
+                        return;
+                    }
+                }
             }
         }
     }
@@ -26,5 +36,18 @@ public class Timer extends Thread {
         return  "Name: '" + timerName + '\'' +
                 ", seconds: " + seconds +
                 ", threadId: " + this.getId();
+    }
+
+    synchronized void suspendThread(){
+        this.isSuspended = true;
+    }
+
+    synchronized void resumeThread() {
+        this.isSuspended = false;
+        this.notify();
+    }
+
+    synchronized String getTimerName() {
+        return this.timerName;
     }
 }

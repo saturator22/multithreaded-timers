@@ -6,7 +6,7 @@ import java.util.List;
 public class Application {
 
 
-    public static void run() {
+    static void run() {
 
         boolean isWorking = true;
         List<Timer> timerList = new ArrayList<>();
@@ -24,8 +24,27 @@ public class Application {
                 startTimer(parsedCommand[1], timerList);
             } else if(parsedCommand[0].equals("check")) {
                 View.printTimers(timerList);
+            } else if(parsedCommand[0].equals("stop")) {
+                pauseTimer(parsedCommand[1], timerList);
+            } else if(parsedCommand[0].equals("resume")) {
+                resumeTimer(parsedCommand[1], timerList);
             } else if(parsedCommand[0].equals("exit")) {
                 isWorking = exit(timerList);
+            }
+        }
+    }
+
+    private static void resumeTimer(String name, List<Timer> timerList) {
+        Timer timer = timerList.stream()
+                .filter(t -> t.getTimerName().equals(name))
+                .findFirst().get();
+        timer.resumeThread();
+    }
+
+    private static void pauseTimer(String name, List<Timer> timerList) {
+        for (Timer timer: timerList) {
+            if(timer.getTimerName().equals(name)) {
+                timer.suspendThread();
             }
         }
     }
